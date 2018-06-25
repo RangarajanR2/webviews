@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Bajaj Sales bot</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <script type="text/javascript">
+        $(function(){
+            $("#departure_date" ).datepicker({
+                changeMonth: true,
+                changeYear: true,
+                yearRange: '1910:2018'
+            });
+            $("#arrival_date" ).datepicker({
+                changeMonth: true,
+                changeYear: true,
+                yearRange: '1910:2018'
+            });
+            $("#submit").click(function(){
+                if($("#departure_date").val() && $("#arrival_date").val()){
+                    window.parent.postMessage(JSON.stringify({event_code:'ym-client-event', data: JSON.stringify({
+                            event: {
+                                code: "travel_dates",
+                                data: {
+                                    departure_date: $("#username").val(),
+                                    arrival_date: $("#password").val()
+                                }
+                            }
+                        })}), 'https://botplatform.io');
+
+
+                    $('#custom :input').attr('disabled', 'disabled');
+                    $('#custom').fadeTo( "slow", 0.15, function() {
+                        $(this).find(':input').attr('disabled', 'disabled');
+                        $(this).find('label').css('cursor','default');
+                        $('#add').append('Submitted');
+                    });
+                }else{
+                    alert("Please enter departure and arrival dates");
+                }
+            })
+        })
+    </script>
+</head>
+<body style="background: #EAF2F7;">
+
+
+<div class="container" style="padding: 0;" id="custom">
+    <div class="form-group">
+        <label>Departure Date</label>
+        <input type="text" class="form-control" id="departure_date" placeholder="Departure Date" name="departure_date">
+    </div>
+
+    <div class="form-group">
+        <label>Arrival Date</label>
+        <input type="text" class="form-control" id="arrival_date" placeholder="Arrival Date" name="arrival_date">
+    </div>
+    <button id="submit" type="submit" class="btn btn-default">Submit</button>
+</div>
+<center><strong><ul id="add"></ul></strong></center>
+</body>
+</html>
